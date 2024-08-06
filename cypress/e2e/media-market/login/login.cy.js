@@ -16,6 +16,13 @@ describe(`TRUY CẬP SITE MEDIA MARKET: ${Cypress.env("mm-host")}/`, () => {
     cy.visit(`${Cypress.env("mm-host")}/`);
   });
 
+  beforeEach(() => {
+    cy.wait(1000);
+    cy.get(".column__inner-box--flex").as("loginForm");
+    cy.get("@loginForm").find("input[type=text]").as("email");
+    cy.get("@loginForm").find("input[type=password]").as("password");
+  });
+
   context("GUI", () => {
     it("GUI_1 Kiểm tra di chuyển màn hình thành công- Hiển thị màn hình login", () => {
       cy.location("pathname").should("contain", "login");
@@ -29,12 +36,6 @@ describe(`TRUY CẬP SITE MEDIA MARKET: ${Cypress.env("mm-host")}/`, () => {
     });
 
     context("Kiểm tra textbox Email", () => {
-      beforeEach(() => {
-        cy.get(".column__inner-box--flex").as("loginForm");
-        cy.get("@loginForm").find("input[type=text]").as("email");
-
-        cy.get("@loginForm").find("input[type=password]").as("password");
-      });
       it("GUI_3 Kiểm tra hiển thị", () => {
         cy.get("@email").should("be.enabled").should("be.empty");
       });
@@ -61,6 +62,7 @@ describe(`TRUY CẬP SITE MEDIA MARKET: ${Cypress.env("mm-host")}/`, () => {
       });
       it("GUI_6 Nhập sai định dạng", async () => {
         cy.get("@email")
+          .focus()
           .clear()
           .type(".com")
           .blur()
@@ -127,13 +129,6 @@ describe(`TRUY CẬP SITE MEDIA MARKET: ${Cypress.env("mm-host")}/`, () => {
       cy.contains("Privacy policy").click();
     });
     context("GUI 13_14", () => {
-      beforeEach(() => {
-        cy.contains("Login to Account").next().first().as("loginForm");
-        cy.get("@loginForm").find("input[type=text]").as("email");
-
-        cy.get("@loginForm").find("input[type=password]").as("password");
-      });
-
       it("GUI_13 Kiểm tra back browser (*)", () => {
         cy.visit(`${Cypress.env("mm-host")}/no`);
 
@@ -163,19 +158,8 @@ describe(`TRUY CẬP SITE MEDIA MARKET: ${Cypress.env("mm-host")}/`, () => {
 
   context("FUNCTION", () => {
     beforeEach(() => {
-      cy.contains("Login to Account").next().as("loginForm");
-      cy.get("@loginForm")
-        .first()
-        .find("input[type=text]")
-        .as("email")
-        .type("hung@yopmail.com");
-
-      cy.get("@loginForm")
-        .first()
-        .find("input[type=password]")
-        .as("password")
-        .type("123456789aA@")
-        .blur();
+      cy.get("@email").type("hung@yopmail.com");
+      cy.get("@password").type("123456789aA@").blur();
     });
 
     it("FUNCTION_1 Kiểm tra thực hiện xử lý Google reCAPTCHA", () => {
