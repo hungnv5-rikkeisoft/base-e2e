@@ -135,11 +135,20 @@ describe(`TRUY CẬP SITE MEDIA MARKET: ${Cypress.env("mm-host")}/`, () => {
         cy.get("@loginForm").find("input[type=password]").as("password");
       });
 
-      it("GUI_13 Kiểm tra back browser (*)", () => {});
+      it("GUI_13 Kiểm tra back browser (*)", () => {
+        cy.visit(`${Cypress.env("mm-host")}/no`);
+
+        cy.go("back");
+        cy.location("pathname").should("include", "login");
+      });
       it("GUI_14 Kiểm tra màn hình loading", () => {
         cy.get("@email").clear().type("hung@gmail.com");
         cy.get("@password").type("aaaaaaaaaaaaa").blur();
         cy.get("@loginForm").contains("Login").click();
+        cy.get(".c-loading")
+          .should("be.visible")
+          .wait(2500)
+          .should("not.be.visible");
       });
       it("GUI_15 Kiểm tra thực hiện reload màn hình", () => {
         const textEmail = "hunghung@gmail.com";
@@ -155,19 +164,17 @@ describe(`TRUY CẬP SITE MEDIA MARKET: ${Cypress.env("mm-host")}/`, () => {
 
   context("FUNCTION", () => {
     beforeEach(() => {
-      // We'll take the command we used above to check off an element
-      // Since we want to perform multiple tests that start with checking
-      // one element, we put it in the beforeEach hook
-      // so that it runs at the start of every test.
       cy.contains("Login to Account").next().as("loginForm");
       cy.get("@loginForm")
         .first()
         .find("input[type=text]")
+        .as("email")
         .type("hung@yopmail.com");
 
       cy.get("@loginForm")
         .first()
         .find("input[type=password]")
+        .as("password")
         .type("123456789aA@")
         .blur();
     });
@@ -177,17 +184,25 @@ describe(`TRUY CẬP SITE MEDIA MARKET: ${Cypress.env("mm-host")}/`, () => {
       cy.get("iframe[src*=recaptcha]").should("exist");
     });
     it("FUNCTION_2 Kiểm tra login thành công", () => {
+      cy.intercept("POST", "**/login", { fixture: "/login/sucess.json" }).as(
+        "loginSuccess"
+      );
       cy.get("@loginForm").contains("Login").click();
+      cy.location("pathname").should("equal", "/");
     });
 
     it("FUNCTION_3 Kiểm tra thực hiện login thất bại", () => {
-      const email = cy.get("@loginForm").first().find("input[type=password]");
-
-      email.clear();
-
-      email.type("Wrong pw");
-      email.blur();
+      cy.intercept("POST", "**/login", {
+        fixture: "/login/fail.json",
+        statusCode: 500,
+      }).as("loginFail");
       cy.get("@loginForm").contains("Login").click();
+      cy.get("@email").should("have.class", "is-error");
+
+      cy.get("span.c-input-common__tooltip").should(
+        "contain.text",
+        "Emailまたは、パスワードが異なっています。"
+      );
     });
 
     it("FUNCTION_4 Kiểm tra đăng nhập với các trạng thái của user", () => {
@@ -207,11 +222,11 @@ describe(`TRUY CẬP SITE MEDIA MARKET: ${Cypress.env("mm-host")}/`, () => {
         .click();
     });
 
-    it("FUNCTION_6 Login trên nhiều trình duyệt khác nhau", () => {
+    it("FUNCTION_6 Login trên nhiều trình duyệt khác nhau:  Không xử lý được", () => {
       // Không xử lý được
     });
 
-    it("FUNCTION_7 Kiểm tra error log", () => {
+    it("FUNCTION_7 Kiểm tra error log  (BE K xử lý ở FE)", () => {
       // (BE Bypass)
     });
   });

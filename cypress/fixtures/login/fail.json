@@ -1,0 +1,14 @@
+{
+  "status": "error",
+  "data": null,
+  "messages": [
+    {
+      "code": "04_01_00021",
+      "ja_message": "Emailまたは、パスワードが異なっています。",
+      "en_message": "Emailまたは、パスワードが異なっています。",
+      "log_level": 1,
+      "message_display_type": 6,
+      "error_log_id": 178441
+    }
+  ]
+}
