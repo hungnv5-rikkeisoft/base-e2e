@@ -30,7 +30,7 @@ describe(`TRUY CẬP SITE MEDIA MARKET: ${Cypress.env("mm-host")}/`, () => {
 
     context("Kiểm tra textbox Email", () => {
       beforeEach(() => {
-        cy.contains("Login to Account").next().first().as("loginForm");
+        cy.get(".column__inner-box--flex").as("loginForm");
         cy.get("@loginForm").find("input[type=text]").as("email");
 
         cy.get("@loginForm").find("input[type=password]").as("password");
@@ -114,7 +114,6 @@ describe(`TRUY CẬP SITE MEDIA MARKET: ${Cypress.env("mm-host")}/`, () => {
     it("GUI_11 Kiểm tra button 入力してください", () => {
       cy.contains("入力してください")
         .should("exist")
-        .parent()
         .should("have.class", "c-btn-common--disable")
         .should("have.css", "pointer-events");
     });
@@ -187,7 +186,10 @@ describe(`TRUY CẬP SITE MEDIA MARKET: ${Cypress.env("mm-host")}/`, () => {
       cy.intercept("POST", "**/login", { fixture: "/login/sucess.json" }).as(
         "loginSuccess"
       );
-      cy.get("@loginForm").contains("Login").click();
+      cy.intercept("GET", "**/me", { fixture: "/login/me.json" }).as(
+        "meSuccess"
+      );
+      cy.get("@loginForm").contains("Login").click().wait(2000);
       cy.location("pathname").should("equal", "/");
     });
 

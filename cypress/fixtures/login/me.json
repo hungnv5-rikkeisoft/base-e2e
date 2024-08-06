@@ -1,0 +1,20 @@
+{
+  "status": "success",
+  "data": {
+    "id": 1000101,
+    "email": "nhiendt+21@rikkeisoft.com",
+    "first_name_romaji": "BAN",
+    "last_name_romaji": "BNHIEN",
+    "phone_number_country_id": 242,
+    "phone_number": "+84967507325",
+    "profile_picture_url": null,
+    "profile_picture_name": null,
+    "language_email": "en",
+    "language_portal": "en",
+    "step_setting": 3,
+    "update_profile_flag": 0,
+    "timezone": "(UTC+07:00)",
+    "flag_country": "nr.png",
+    "account_status_code": 80
+  }
+}
