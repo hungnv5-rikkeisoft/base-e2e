@@ -38,28 +38,119 @@ describe(`TRUY CẬP SITE MEDIA MARKET: ${Cypress.env("mm-host")}/`, () => {
       it("GUI_3 Kiểm tra hiển thị", () => {
         cy.get("@email").should("be.enabled").should("be.empty");
       });
-      it.only("GUI_4 Kiểm tra bắt buộc nhập", async () => {
-        cy.get("@email").focus().blur().should("have.class", "is-error");
-        // cy.get("@password").focus().blur().should("have.class", "is-error");
-        await cy.wait(500);
+      it("GUI_4 Kiểm tra bắt buộc nhập", () => {
         cy.get("@email")
-          .next("span")
+          .focus()
+          .blur()
+          .should("have.class", "is-error")
+          .wait(500)
+          .get("span.c-input-common__tooltip")
+          .should("exist")
           .should("have.class", "is-show")
           .contains("メールアドレスを入力してください。");
       });
-      it("GUI_5", () => {});
-      it("GUI_6", () => {});
-      it("GUI_7", () => {});
-      it("GUI_8", () => {});
-      it("GUI_9", () => {});
-      it("GUI_10", () => {});
+      it("GUI_5 Kiểm tra nhập dữ liệu hợp lệ", () => {
+        cy.get("@email")
+          .focus()
+          .clear()
+          .type("nhiendt@rikkeisoft.com")
+          .blur()
+          .wait(500)
+          .get("span.c-input-common__tooltip")
+          .should("not.exist");
+      });
+      it("GUI_6 Nhập sai định dạng", async () => {
+        cy.get("@email")
+          .clear()
+          .type(".com")
+          .blur()
+          .wait(500)
+          .get("span.c-input-common__tooltip")
+          .should("have.class", "is-show")
+          .contains("メールアドレスの形式が間違っています。");
+      });
+      it("GUI_7 Nhập ký tự không cho phép", () => {
+        cy.get("@email")
+          .clear()
+          .type("あ.com")
+          .blur()
+          .wait(500)
+          .get("span.c-input-common__tooltip")
+          .should("have.class", "is-show")
+          .contains(
+            "メールアドレスは半角英字、半角数字、半角記号で入力してください。"
+          );
+      });
+      it("GUI_8 Kiểm tra maxlength", () => {
+        cy.get("@email")
+          .clear()
+          .type(
+            "morethan256@g.comaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+          )
+          .blur()
+          .wait(500)
+          .get("span.c-input-common__tooltip")
+          .should("have.class", "is-show")
+          .contains("メールアドレスは255文字以内で入力してください。");
+      });
+      it("GUI_9 Kiểm tra copy-paste", () => {
+        const textToCopy = "copy@gmail.com";
+
+        cy.get("@email").invoke("val", textToCopy).wait(500);
+      });
+      it("GUI_10 Kiểm tra trim space ", () => {
+        const textInludeSpace = "space include @gmail.com    ";
+
+        const textAferTrim = textInludeSpace.replace(/\s+/gim, "");
+        cy.get("@email")
+          .clear()
+          .type(textInludeSpace)
+          .blur()
+          .wait(500)
+          .should("contain.value", textAferTrim);
+      });
     });
 
-    it("GUI_11", () => {});
-    it("GUI_12", () => {});
-    it("GUI_13", () => {});
-    it("GUI_14", () => {});
-    it("GUI_15", () => {});
+    it("GUI_11 Kiểm tra button 入力してください", () => {
+      cy.contains("入力してください")
+        .should("exist")
+        .parent()
+        .should("have.class", "c-btn-common--disable")
+        .should("have.css", "pointer-events");
+    });
+    it("GUI_12 Kiểm tra link Privacy policy", () => {
+      cy.contains("Privacy policy")
+        .should("exist")
+        .should("have.class", "footer__link")
+        .should("have.attr", "href")
+        .and("equal", "https://dev.mediamarket.jp/access.php?id=privacy");
+
+      cy.contains("Privacy policy").click();
+    });
+    context("GUI 13_14", () => {
+      beforeEach(() => {
+        cy.contains("Login to Account").next().first().as("loginForm");
+        cy.get("@loginForm").find("input[type=text]").as("email");
+
+        cy.get("@loginForm").find("input[type=password]").as("password");
+      });
+
+      it("GUI_13 Kiểm tra back browser (*)", () => {});
+      it("GUI_14 Kiểm tra màn hình loading", () => {
+        cy.get("@email").clear().type("hung@gmail.com");
+        cy.get("@password").type("aaaaaaaaaaaaa").blur();
+        cy.get("@loginForm").contains("Login").click();
+      });
+      it("GUI_15 Kiểm tra thực hiện reload màn hình", () => {
+        const textEmail = "hunghung@gmail.com";
+        const textPw = "pwwwwwwwwwwwww";
+        cy.get("@email").clear().type(textEmail);
+        cy.get("@password").type(textPw).blur();
+
+        cy.reload();
+        cy.get("@email").should("contain.value", textEmail);
+      });
+    });
   });
 
   context("FUNCTION", () => {
