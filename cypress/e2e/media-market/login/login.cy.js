@@ -17,10 +17,12 @@ describe(`TRUY CẬP SITE MEDIA MARKET: ${Cypress.env("mm-host")}/`, () => {
   });
 
   beforeEach(() => {
-    cy.wait(1000);
     cy.get(".column__inner-box--flex").as("loginForm");
     cy.get("@loginForm").find("input[type=text]").as("email");
     cy.get("@loginForm").find("input[type=password]").as("password");
+  });
+  afterEach(() => {
+    cy.wait(1000);
   });
 
   context("GUI", () => {
@@ -60,7 +62,7 @@ describe(`TRUY CẬP SITE MEDIA MARKET: ${Cypress.env("mm-host")}/`, () => {
           .get("span.c-input-common__tooltip")
           .should("not.exist");
       });
-      it("GUI_6 Nhập sai định dạng", async () => {
+      it("GUI_6 Nhập sai định dạng", () => {
         cy.get("@email")
           .focus()
           .clear()
