@@ -1,0 +1,9 @@
+{
+  "status": "success",
+  "data": {
+    "methodLogin": 1,
+    "phone_number": "+84967507325",
+    "language_email": "en",
+    "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2Jhc2ljX2RhdGFfaWQiOjEwMDAxMDEsInVzZXJfbmFtZSI6IkJBTiBCTkhJRU4iLCJlbWFpbCI6Im5oaWVuZHQrMjFAcmlra2Vpc29mdC5jb20iLCJtZW1iZXJfaWQiOiI2Mm4wOHQiLCJyZWxhdGVkX2FjY2Vzc19pZCI6NjE2NDksIm5vZGVfZW52IjoiZGV2Iiwic2l0ZV9pZCI6NCwiaWF0IjoxNzIyOTM4MDYzLCJleHAiOjE3MjI5NDE2NjN9.GE7YLHxAiUv64C1BXv_aGVJOlWExaYQRiWntK4qmgOE"
+  }
+}
