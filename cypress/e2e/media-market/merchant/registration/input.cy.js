@@ -1,4 +1,5 @@
 import { notFullwidthOrSpaceRegex } from "../../../../support/validator";
+import { LIST_FIELD_MERCHANT } from "../../../../constants";
 
 describe(`TRUY CẬP SITE MEDIA MARKET: ${Cypress.env("mm-host")}/`, () => {
   let example;
@@ -12,18 +13,15 @@ describe(`TRUY CẬP SITE MEDIA MARKET: ${Cypress.env("mm-host")}/`, () => {
   beforeEach(() => {
     cy.setCookieAfterLogin();
     cy.visit(`${Cypress.env("mm-host")}/`);
-    cy.wait(3000);
+    cy.get(".c-unit-setting__config-icon > img").click();
+    cy.contains("マーチャント設定")
+      .should("have.class", "c-card-balloon__text")
+      .click();
+    cy.get(".c-box-check__body").click({ force: true });
     cy.visit(`${Cypress.env("mm-host")}/merchant/registration/input`);
-    cy.getFieldMerchant("B_to_C");
-    cy.getFieldMerchant("B_to_B");
-    cy.getFieldMerchant("industry");
-    cy.getFieldMerchant("serviceName");
-    cy.getFieldMerchant("webURL");
-    cy.getFieldMerchant("transactionPerMonth");
-    cy.getFieldMerchant("estimateAmountPerMonth");
-    cy.getFieldMerchant("usingApi");
-    cy.getFieldMerchant("notUsingApi");
-    cy.getFieldMerchant("ipAddress");
+    LIST_FIELD_MERCHANT.forEach((item) => {
+      cy.getFieldMerchant(item);
+    });
   });
   context(
     `KIỂM TRA MÀN: ${Cypress.env("mm-host")}/merchant/registration/input`,
@@ -420,6 +418,7 @@ describe(`TRUY CẬP SITE MEDIA MARKET: ${Cypress.env("mm-host")}/`, () => {
             });
           });
           it("GUI_79 - Kiểm tra nhập dữ liệu không hợp lệ", () => {
+            // Tất cả case hiển thị message "IPアドレスを正しく入力してください。" đều check ở đây
             cy.get("@usingApi").click({ force: true });
             example.ip_address.in_valid.forEach((val) => {
               cy.typing("@ipAddress", val).should("have.class", "is-error");
@@ -432,27 +431,68 @@ describe(`TRUY CẬP SITE MEDIA MARKET: ${Cypress.env("mm-host")}/`, () => {
               cy.checkButton(false);
             });
           });
-          it("GUI_80 - Kiểm tra nhập từ bàn phím tiếng Nhật", () => {
-            //Đã check ở GUI_78
+          it("GUI_115 - Kiểm tra max length", () => {
+            cy.get("@usingApi").click({ force: true });
+            const textMaxLength = "192.168.1.1, ".repeat(22).slice(0, -2);
+            cy.log(`Đã nhâp ${textMaxLength.length} kí tự`);
+            cy.typing("@ipAddress", textMaxLength).should(
+              "have.class",
+              "is-valid"
+            );
+            cy.checkToolTipValidate(false);
           });
-          // it.only('(GUI_81 => GUI_88) + GUI_90 + (GUI_92 => GUI_96) + (GUI_98 => GUI_100) + GUI_102', () => {
-          //   cy.get("@usingApi").click({ force: true });
-          //   example.ip_address.in_valid.forEach((val) => {
-          //     cy.typing("@ipAddress", val).should("have.class", "is-error");
-          //     cy.wait(1000);
-          //     cy.checkToolTipValidate(
-          //       true,
-          //       "IPアドレスを正しく入力してください。",
-          //       ".c-input-common__tooltip-item"
-          //     );
-          //     cy.checkButton(false);
-          //   });
-          // });
-          // it('GUI_82 - Quy tắc định dạng địa chỉ IP (IPv4). Nhập < 4 nhóm số', () => {
-
-          // });
         }
       );
+
+      context("Kiểm tra Back browser và reload màn hình", () => {
+        it("GUI_134 - Kiểm tra back browser", () => {
+          cy.go(-1);
+          cy.url().should(
+            "eq",
+            `${Cypress.env("mm-host")}/merchant/registration/`
+          );
+          cy.get(".c-box-check__body").should("have.class", "is-valid");
+        });
+
+        it("GUI_137 - Reload màn hình khi không nhập trường bắt buộc", () => {
+          cy.get("@usingApi").click({ force: true });
+          cy.typing("@serviceName").should("have.class", "is-error");
+          cy.reload();
+          cy.get("@serviceName").should("not.have.class", "is-error");
+        });
+
+        it("GUI_138 - Nhập dữ liệu invalid", () => {
+          cy.typing("@serviceName", "😀😀").should("have.class", "is-error");
+          cy.reload();
+          cy.get("@serviceName").should("have.class", "is-error");
+          cy.wait(1000);
+          cy.get("@serviceName")
+            .parent()
+            .checkToolTipValidate(
+              true,
+              "サービスの名称は全角文字、半角文字で入力してください。"
+            );
+        });
+
+        it.only("GUI_139 - Nhập all data hợp lệ", () => {
+          const data = {
+            model: true,
+            industry: "鉱業・採石業・砂利採取業",
+            serviceName: "漢字",
+            paymentService: 5,
+            webURL: "vcxvcxvcx",
+            transactionPerMonth: "1,000 - 10,000/回",
+            estimateAmountPerMonth: "50,001 - 100,000 USD",
+            usingApi: true,
+            ipAddress: "192.168.1.1",
+          };
+          cy.fillAllFieldsMerchant(data);
+          cy.checkButton(true);
+          cy.reload();
+          cy.checkFieldMerchant(data);
+          cy.checkButton(true);
+        });
+      });
     }
   );
 });

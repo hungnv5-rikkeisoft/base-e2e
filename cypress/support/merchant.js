@@ -56,3 +56,83 @@ Cypress.Commands.add("checkButton", (isEnable) => {
       });
   }
 });
+
+Cypress.Commands.add(
+  "fillAllFieldsMerchant",
+  ({
+    model,
+    industry,
+    serviceName,
+    paymentService,
+    webURL,
+    transactionPerMonth,
+    estimateAmountPerMonth,
+    usingApi,
+    ipAddress,
+  }) => {
+    cy.get(`${model ? "@B_to_C" : "@B_to_B"}`).click({ force: true });
+
+    cy.get("@industry").click({ force: true });
+    cy.contains("li", industry).should("exist").click();
+
+    cy.typing("@serviceName", serviceName)
+      .should("have.class", "is-valid")
+      .and("have.value", serviceName);
+
+    cy.get(
+      `:nth-child(${paymentService}) > .c-unit-checkbox > .c-unit-checkbox__box`
+    ).click({
+      force: true,
+    });
+
+    cy.typing("@webURL", webURL)
+      .should("have.class", "is-valid")
+      .and("have.value", webURL);
+
+    cy.get("@transactionPerMonth").click({ force: true });
+    cy.contains("li", transactionPerMonth).should("exist").click();
+
+    cy.get("@estimateAmountPerMonth").click({ force: true });
+    cy.contains("li", estimateAmountPerMonth).should("exist").click();
+
+    cy.get(usingApi ? "@usingApi" : "@notUsingApi").click({ force: true });
+    if (usingApi) {
+      cy.typing("@ipAddress", ipAddress)
+        .should("have.class", "is-valid")
+        .and("have.value", ipAddress);
+    }
+  }
+);
+
+Cypress.Commands.add(
+  "checkFieldMerchant",
+  ({
+    model,
+    industry,
+    serviceName,
+    paymentService,
+    webURL,
+    transactionPerMonth,
+    estimateAmountPerMonth,
+    usingApi,
+    ipAddress,
+  }) => {
+    cy.get(`${model ? "@B_to_C" : "@B_to_B"}`).should(
+      "have.class",
+      "is-active"
+    );
+    cy.contains(industry);
+    cy.get("@serviceName").should("have.value", serviceName);
+    cy.get(
+      `:nth-child(${paymentService}) > .c-unit-checkbox > .c-unit-checkbox__box`
+    ).should("have.class", "is-valid");
+    cy.get("@webURL").should("have.value", webURL);
+    cy.contains(transactionPerMonth);
+    cy.contains(estimateAmountPerMonth);
+    cy.get(usingApi ? "@usingApi" : "@notUsingApi").should(
+      "have.class",
+      "is-active"
+    );
+    cy.get("@ipAddress").should("have.value", ipAddress);
+  }
+);
