@@ -8,24 +8,23 @@ context("Actions", () => {
   // https://on.cypress.io/interacting-with-elements
 
   it(".type() - type into a DOM element", () => {
-    const email = cy.get(".action-email");
     // https://on.cypress.io/type
-    email.type("fake@email.com");
-    email.should("have.value", "fake@email.com");
+    cy.get(".action-email").type("fake@email.com");
+    cy.get(".action-email").should("have.value", "fake@email.com");
 
     // .type() with special character sequences
-    email.type("{leftarrow}{rightarrow}{uparrow}{downarrow}");
-    email.type("{del}{selectall}{backspace}");
+    cy.get(".action-email").type("{leftarrow}{rightarrow}{uparrow}{downarrow}");
+    cy.get(".action-email").type("{del}{selectall}{backspace}");
 
     // .type() with key modifiers
-    email.type("{alt}{option}"); //these are equivalent
-    email.type("{ctrl}{control}"); //these are equivalent
-    email.type("{meta}{command}{cmd}"); //these are equivalent
-    email.type("{shift}");
+    cy.get(".action-email").type("{alt}{option}"); //these are equivalent
+    cy.get(".action-email").type("{ctrl}{control}"); //these are equivalent
+    cy.get(".action-email").type("{meta}{command}{cmd}"); //these are equivalent
+    cy.get(".action-email").type("{shift}");
 
     // Delay each keypress by 0.1 sec
-    email.type("slow.typing@email.com", { delay: 100 });
-    email.should("have.value", "slow.typing@email.com");
+    cy.get(".action-email").type("slow.typing@email.com", { delay: 100 });
+    cy.get(".action-email").should("have.value", "slow.typing@email.com");
 
     cy.get(".action-disabled")
       // Ignore error checking prior to type
@@ -164,7 +163,7 @@ context("Actions", () => {
       "checkbox2",
     ]);
     cy.get('.action-multiple-checkboxes [type="checkbox"]').should(
-      "be.checked"
+      "be.checked",
     );
 
     // Ignore error checking prior to checking
@@ -189,7 +188,7 @@ context("Actions", () => {
     cy.get('.action-check [type="checkbox"]').check("checkbox1");
     cy.get('.action-check [type="checkbox"]').uncheck("checkbox1");
     cy.get('.action-check [type="checkbox"][value="checkbox1"]').should(
-      "not.be.checked"
+      "not.be.checked",
     );
 
     // .uncheck() accepts an array of values
@@ -199,10 +198,10 @@ context("Actions", () => {
       "checkbox3",
     ]);
     cy.get('.action-check [type="checkbox"][value="checkbox1"]').should(
-      "not.be.checked"
+      "not.be.checked",
     );
     cy.get('.action-check [type="checkbox"][value="checkbox3"]').should(
-      "not.be.checked"
+      "not.be.checked",
     );
 
     // Ignore error checking prior to unchecking

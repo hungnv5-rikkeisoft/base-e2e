@@ -28,12 +28,12 @@ context("Cypress APIs", () => {
           // we don't want to change the subject so
           // we return whatever was passed in
           return subject;
-        }
+        },
       );
 
       cy.get("button")
         .console("info")
-        .then(($button) => {
+        .then(() => {
           // subject is still $button
         });
     });
@@ -142,7 +142,7 @@ context("Cypress APIs", () => {
       expect(Cypress.env()).to.have.property("host", "veronica.dev.local");
       expect(Cypress.env()).to.have.property(
         "api_server",
-        "http://localhost:8888/v2/"
+        "http://localhost:8888/v2/",
       );
     });
   });
