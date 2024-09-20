@@ -3,13 +3,13 @@
 // Site key: 6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI
 // Secret key: 6LeIxAcTAAAAAGG-vFI1TnRWxMZNFuojJ4WifJWe
 
-Cypress.Commands.add("loginAndSaveCookies", () => {
+Cypress.Commands.add("loginAndSaveCookies", (host) => {
   cy.intercept("GET", "**/me").as("meRequest");
 
-  cy.visit(`${Cypress.env("mm-host")}/`);
-  cy.get(".column__inner-box--flex").as("loginForm");
-  cy.get("@loginForm").find("input[type=text]").as("email");
-  cy.get("@loginForm").find("input[type=password]").as("password");
+  cy.visit(host); //`${Cypress.env("mm-host")}/`
+
+  cy.get("input[type=text]").as("email");
+  cy.get("input[type=password]").as("password");
 
   cy.get("@email")
     .focus()
@@ -19,9 +19,7 @@ Cypress.Commands.add("loginAndSaveCookies", () => {
     .focus()
     .clear()
     .type(`${Cypress.env("password")}`);
-  cy.get("@password").blur();
-  cy.wait(1000);
-  cy.get(".c-btn-common--blue").click();
+  cy.get("@password").focus().type("{enter}");
 
   cy.wait("@meRequest").then((interception) => {
     expect(interception.response.statusCode).to.equal(200);
@@ -53,12 +51,12 @@ Cypress.Commands.add(
   (
     isExist,
     text,
-    classTooltip = ".c-input-common__tooltip-item--white-space-inherit"
+    classTooltip = ".c-input-common__tooltip-item--white-space-inherit",
   ) => {
     if (isExist) {
       cy.get(classTooltip).should("be.visible").and("have.text", text);
     } else {
       cy.get(classTooltip).should("not.exist");
     }
-  }
+  },
 );

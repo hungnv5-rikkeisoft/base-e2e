@@ -7,7 +7,7 @@ import {
 describe(`TRUY CẬP SITE MEDIA MARKET: ${Cypress.env("mm-host")}/`, () => {
   let example;
   before(() => {
-    cy.loginAndSaveCookies();
+    cy.loginAndSaveCookies(Cypress.env("mm-host"));
     cy.fixture("example").then((data) => {
       example = data.merchant;
     });
