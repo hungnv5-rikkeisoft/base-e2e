@@ -4,12 +4,21 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "e2e": "cypress open"
+    "e2e": "cypress open",
+    "prepare": "husky"
+  },
+  "lint-staged": {
+    "**/*.{js,json}": [
+      "prettier --write -u"
+    ]
   },
   "devDependencies": {
     "@cypress/webpack-preprocessor": "^6.0.2",
     "cypress": "^13.13.2",
-    "eslint-plugin-cypress": "^3.5.0"
+    "eslint-plugin-cypress": "^3.5.0",
+    "husky": "^9.1.6",
+    "lint-staged": "^15.2.10",
+    "prettier-plugin-sort-json": "^4.0.0"
   },
   "dependencies": {
     "dotenv": "^16.4.5",
