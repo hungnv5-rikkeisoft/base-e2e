@@ -16,11 +16,14 @@ describe(`TRUY CẬP SITE MEDIA MARKET: ${Cypress.env("mm-host")}/`, () => {
   beforeEach(() => {
     cy.setCookieAfterLogin();
     cy.visit(`${Cypress.env("mm-host")}/`);
-    cy.get(".c-unit-setting__config-icon > img").click();
+    cy.get(".c-unit-setting__config-icon > img").click({ force: true });
+    cy.wait(500);
+    cy.intercept("GET", "**/merchant").as("getMerchant");
     cy.contains("マーチャント設定")
       .should("have.class", "c-card-balloon__text")
       .click();
-    cy.get(".c-box-check__body").click({ force: true });
+    cy.wait("@getMerchant");
+    cy.get("label.c-box-check__body").scrollIntoView().click({ force: true });
     cy.visit(`${Cypress.env("mm-host")}/merchant/registration/input`);
     LIST_FIELD_MERCHANT.forEach((item) => {
       cy.getFieldMerchant(item);
@@ -66,7 +69,7 @@ describe(`TRUY CẬP SITE MEDIA MARKET: ${Cypress.env("mm-host")}/`, () => {
         });
 
         it("GUI_24 - Kiểm tra bắt buộc nhập", () => {
-          cy.get("@serviceName").focus().clear().blur();
+          cy.typing("@serviceName");
           cy.get("@serviceName")
             .should("have.class", "is-error")
             .and("have.value", "");
@@ -214,7 +217,7 @@ describe(`TRUY CẬP SITE MEDIA MARKET: ${Cypress.env("mm-host")}/`, () => {
           );
         });
         it("GUI_43 - Kiểm tra bắt buộc nhập", () => {
-          cy.get("@webURL").focus().clear().blur();
+          cy.typing("@webURL");
           cy.get("@webURL")
             .should("not.have.class", "is-error")
             .and("have.value", "");
@@ -402,7 +405,7 @@ describe(`TRUY CẬP SITE MEDIA MARKET: ${Cypress.env("mm-host")}/`, () => {
           it("GUI_77 - Kiểm tra bắt buộc nhập", () => {
             cy.get("@ipAddress").click({ force: true });
             cy.wait(1000);
-            cy.get("@ipAddress").focus().clear().blur();
+            cy.typing("@ipAddress");
             cy.get("@ipAddress")
               .should("not.have.class", "is-error")
               .and("have.value", "");
@@ -454,6 +457,7 @@ describe(`TRUY CẬP SITE MEDIA MARKET: ${Cypress.env("mm-host")}/`, () => {
             "eq",
             `${Cypress.env("mm-host")}/merchant/registration/`
           );
+          cy.wait(5000);
           cy.get(".c-box-check__body").should("have.class", "is-valid");
         });
 
@@ -477,7 +481,7 @@ describe(`TRUY CẬP SITE MEDIA MARKET: ${Cypress.env("mm-host")}/`, () => {
             );
         });
 
-        it.only("GUI_139 - Nhập all data hợp lệ", () => {
+        it("GUI_139 - Nhập all data hợp lệ", () => {
           cy.fillAllFieldsMerchant(DATA_MERCHANT_FILL);
           cy.checkButton(true);
           cy.reload();
