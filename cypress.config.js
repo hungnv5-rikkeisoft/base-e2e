@@ -1,12 +1,35 @@
 const { defineConfig } = require("cypress");
-require("dotenv").config();
+const path = require("path");
 
+const webpackPreprocessor = require("@cypress/webpack-preprocessor");
+const wpOptions = {
+  webpackOptions: {
+    resolve: {
+      alias: {
+        "@": path.resolve(__dirname, "./cypress"),
+        "@fixtures": path.resolve(__dirname, "./cypress/fixtures"),
+      },
+    },
+  },
+  watchOptions: {},
+};
 module.exports = defineConfig({
+  projectId: "9o64v4",
   env: {
     baseURL: process.env.BASE_URL,
   },
   e2e: {
-    experimentalOrigin: true,
-    setupNodeEvents(on, config) {},
+    setupNodeEvents(on, config) {
+      // implement node event listeners here
+      on("file:preprocessor", webpackPreprocessor(wpOptions));
+    },
+    chromeWebSecurity: false,
+  },
+
+  component: {
+    devServer: {
+      framework: "nuxt",
+      bundler: "webpack",
+    },
   },
 });

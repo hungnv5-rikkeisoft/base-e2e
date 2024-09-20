@@ -138,13 +138,13 @@ describe(`TRUY CẬP SITE MEDIA MARKET: ${Cypress.env("mm-host")}/`, () => {
         cy.location("pathname").should("include", "login");
       });
       it("GUI_14 Kiểm tra màn hình loading", () => {
-        // cy.get("@email").clear().type("hung@gmail.com");
-        // cy.get("@password").type("aaaaaaaaaaaaa").blur();
-        // cy.get("@loginForm").contains("Login").click();
-        // cy.get(".c-loading")
-        //   .should("be.visible")
-        //   .wait(2500)
-        //   .should("not.be.visible");
+        cy.get("@email").clear().type("hung@gmail.com");
+        cy.get("@password").type("aaaaaaaaaaaaa").blur();
+        cy.get("@loginForm").contains("Login").click();
+        cy.get(".c-loading")
+          .should("be.visible")
+          .wait(2500)
+          .should("not.be.visible");
       });
       it("GUI_15 Kiểm tra thực hiện reload màn hình", () => {
         const textEmail = "hunghung@gmail.com";

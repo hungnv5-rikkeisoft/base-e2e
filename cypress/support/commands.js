@@ -1,3 +1,8 @@
+// For reCAPTCHA v2, use the following test keys. You will always get No CAPTCHA and all verification requests will pass.
+
+// Site key: 6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI
+// Secret key: 6LeIxAcTAAAAAGG-vFI1TnRWxMZNFuojJ4WifJWe
+
 Cypress.Commands.add("loginAndSaveCookies", () => {
   cy.intercept("GET", "**/me").as("meRequest");
 
