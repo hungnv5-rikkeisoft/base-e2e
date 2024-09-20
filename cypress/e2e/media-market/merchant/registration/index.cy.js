@@ -1,6 +1,6 @@
 describe(`TRUY CẬP SITE MEDIA MARKET: ${Cypress.env("mm-host")}/`, () => {
   before(() => {
-    cy.loginAndSaveCookies();
+    cy.loginAndSaveCookies(Cypress.env("mm-host"));
   });
 
   beforeEach(() => {
@@ -27,7 +27,7 @@ describe(`TRUY CẬP SITE MEDIA MARKET: ${Cypress.env("mm-host")}/`, () => {
           .click();
         cy.url().should(
           "eq",
-          `${Cypress.env("mm-host")}/merchant/registration/`
+          `${Cypress.env("mm-host")}/merchant/registration/`,
         );
         cy.go(-1);
         cy.url().should("eq", `${Cypress.env("mm-host")}/`);
@@ -43,6 +43,6 @@ describe(`TRUY CẬP SITE MEDIA MARKET: ${Cypress.env("mm-host")}/`, () => {
         cy.reload();
         cy.get(".c-box-check__body").should("have.class", "is-valid");
       });
-    }
+    },
   );
 });

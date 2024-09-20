@@ -82,7 +82,7 @@ Cypress.Commands.add(
       .and("have.value", serviceName);
 
     cy.get(
-      `:nth-child(${paymentService}) > .c-unit-checkbox > .c-unit-checkbox__box`
+      `:nth-child(${paymentService}) > .c-unit-checkbox > .c-unit-checkbox__box`,
     ).click({
       force: true,
     });
@@ -103,7 +103,7 @@ Cypress.Commands.add(
         .should("have.class", "is-valid")
         .and("have.value", ipAddress);
     }
-  }
+  },
 );
 
 Cypress.Commands.add(
@@ -121,22 +121,22 @@ Cypress.Commands.add(
   }) => {
     cy.get(`${model ? "@B_to_C" : "@B_to_B"}`).should(
       "have.class",
-      "is-active"
+      "is-active",
     );
     cy.contains(industry);
     cy.get("@serviceName").should("have.value", serviceName);
     cy.get(
-      `:nth-child(${paymentService}) > .c-unit-checkbox > .c-unit-checkbox__box`
+      `:nth-child(${paymentService}) > .c-unit-checkbox > .c-unit-checkbox__box`,
     ).should("have.class", "is-valid");
     cy.get("@webURL").should("have.value", webURL);
     cy.contains(transactionPerMonth);
     cy.contains(estimateAmountPerMonth);
     cy.get(usingApi ? "@usingApi" : "@notUsingApi").should(
       "have.class",
-      "is-active"
+      "is-active",
     );
     cy.get("@ipAddress").should("have.value", ipAddress);
-  }
+  },
 );
 
 Cypress.Commands.add("checkDataMerchantDisplay", () => {
