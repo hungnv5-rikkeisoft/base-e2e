@@ -16,6 +16,10 @@
 // Import commands.js using ES2015 syntax:
 import "./commands";
 import "./media-market/index";
+import "./myforex/index";
+import "./fxon/index";
+import "./p2t/index";
+import "./icpay/index";
 
 // Alternatively you can use CommonJS syntax:
 // require('./commands')
