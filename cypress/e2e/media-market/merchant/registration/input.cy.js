@@ -1,5 +1,8 @@
 import { notFullwidthOrSpaceRegex } from "../../../../support/validator";
-import { LIST_FIELD_MERCHANT } from "../../../../constants";
+import {
+  LIST_FIELD_MERCHANT,
+  DATA_MERCHANT_FILL,
+} from "../../../../constants/merchant";
 
 describe(`TRUY CẬP SITE MEDIA MARKET: ${Cypress.env("mm-host")}/`, () => {
   let example;
@@ -475,21 +478,10 @@ describe(`TRUY CẬP SITE MEDIA MARKET: ${Cypress.env("mm-host")}/`, () => {
         });
 
         it.only("GUI_139 - Nhập all data hợp lệ", () => {
-          const data = {
-            model: true,
-            industry: "鉱業・採石業・砂利採取業",
-            serviceName: "漢字",
-            paymentService: 5,
-            webURL: "vcxvcxvcx",
-            transactionPerMonth: "1,000 - 10,000/回",
-            estimateAmountPerMonth: "50,001 - 100,000 USD",
-            usingApi: true,
-            ipAddress: "192.168.1.1",
-          };
-          cy.fillAllFieldsMerchant(data);
+          cy.fillAllFieldsMerchant(DATA_MERCHANT_FILL);
           cy.checkButton(true);
           cy.reload();
-          cy.checkFieldMerchant(data);
+          cy.checkFieldMerchant(DATA_MERCHANT_FILL);
           cy.checkButton(true);
         });
       });
