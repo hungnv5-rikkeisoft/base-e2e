@@ -61,7 +61,7 @@ describe(`TRUY CẬP SITE MEDIA MARKET: ${Cypress.env("mm-host")}/`, () => {
           cy.get("@serviceName").should(
             "have.attr",
             "placeholder",
-            "IC WEBショッピング"
+            "IC WEBショッピング",
           );
         });
 
@@ -91,7 +91,7 @@ describe(`TRUY CẬP SITE MEDIA MARKET: ${Cypress.env("mm-host")}/`, () => {
             cy.typing("@serviceName", val).should("have.class", "is-error");
             cy.checkToolTipValidate(
               true,
-              "サービスの名称は全角文字、半角文字で入力してください。"
+              "サービスの名称は全角文字、半角文字で入力してください。",
             );
             cy.checkButton(false);
           });
@@ -106,7 +106,7 @@ describe(`TRUY CẬP SITE MEDIA MARKET: ${Cypress.env("mm-host")}/`, () => {
           cy.typing("@serviceName", longText).should("have.class", "is-error");
           cy.checkToolTipValidate(
             true,
-            "サービスの名称は255文字以内で入力してください。"
+            "サービスの名称は255文字以内で入力してください。",
           );
           cy.checkButton(false);
         });
@@ -144,7 +144,7 @@ describe(`TRUY CẬP SITE MEDIA MARKET: ${Cypress.env("mm-host")}/`, () => {
         it("GUI_33 - Kiểm tra trim space giữa chuỗi", () => {
           cy.typing("@serviceName", "hello　world　123").should(
             "have.value",
-            "hello world 123"
+            "hello world 123",
           );
         });
 
@@ -166,7 +166,7 @@ describe(`TRUY CẬP SITE MEDIA MARKET: ${Cypress.env("mm-host")}/`, () => {
           data.forEach((item) => {
             cy.typing("@serviceName", item.text).should(
               "have.class",
-              "is-error"
+              "is-error",
             );
             cy.checkToolTipValidate(true, item.message);
           });
@@ -178,16 +178,16 @@ describe(`TRUY CẬP SITE MEDIA MARKET: ${Cypress.env("mm-host")}/`, () => {
           const arrCheckbox = [1, 2, 3, 4, 5];
           const r = Math.floor(Math.random() * arrCheckbox.length) + 1;
           cy.get(
-            `:nth-child(${r}) > .c-unit-checkbox > .c-unit-checkbox__box`
+            `:nth-child(${r}) > .c-unit-checkbox > .c-unit-checkbox__box`,
           ).click({ force: true });
           cy.wait(1000);
           cy.get(
-            `:nth-child(${r}) > .c-unit-checkbox > .c-unit-checkbox__box`
+            `:nth-child(${r}) > .c-unit-checkbox > .c-unit-checkbox__box`,
           ).should("have.class", "is-valid");
           arrCheckbox.filter((item) => {
             if (item !== r) {
               cy.get(
-                `:nth-child(${item}) > .c-unit-checkbox > .c-unit-checkbox__box`
+                `:nth-child(${item}) > .c-unit-checkbox > .c-unit-checkbox__box`,
               ).should("not.have.class", "is-valid");
             }
           });
@@ -197,7 +197,7 @@ describe(`TRUY CẬP SITE MEDIA MARKET: ${Cypress.env("mm-host")}/`, () => {
       context("Kiểm tra trường WEBサイトURL (*) ", () => {
         it("GUI_41 - Kiểm tra label", () => {
           cy.get(
-            ":nth-child(12) > :nth-child(5) > .c-table-box__inner--center > .c-table-box__head"
+            ":nth-child(12) > :nth-child(5) > .c-table-box__inner--center > .c-table-box__head",
           ).as("Web");
           cy.get("@Web")
             .find(".c-table-box__title")
@@ -210,7 +210,7 @@ describe(`TRUY CẬP SITE MEDIA MARKET: ${Cypress.env("mm-host")}/`, () => {
           cy.get("@webURL").should(
             "have.attr",
             "placeholder",
-            "https://mediamarket.jp"
+            "https://mediamarket.jp",
           );
         });
         it("GUI_43 - Kiểm tra bắt buộc nhập", () => {
@@ -236,7 +236,7 @@ describe(`TRUY CẬP SITE MEDIA MARKET: ${Cypress.env("mm-host")}/`, () => {
             cy.typing("@webURL", val).should("have.class", "is-error");
             cy.checkToolTipValidate(
               true,
-              "WEBサイトURLは半角英字、半角数字、半角記号で入力してください。"
+              "WEBサイトURLは半角英字、半角数字、半角記号で入力してください。",
             );
             cy.checkButton(false);
           });
@@ -251,7 +251,7 @@ describe(`TRUY CẬP SITE MEDIA MARKET: ${Cypress.env("mm-host")}/`, () => {
           cy.typing("@webURL", longText).should("have.class", "is-error");
           cy.checkToolTipValidate(
             true,
-            "WEBサイトURLは255文字以内で入力してください。"
+            "WEBサイトURLは255文字以内で入力してください。",
           );
           cy.checkButton(false);
         });
@@ -284,7 +284,7 @@ describe(`TRUY CẬP SITE MEDIA MARKET: ${Cypress.env("mm-host")}/`, () => {
         it("GUI_51 + 52 - Kiểm tra trim space", () => {
           cy.typing("@webURL", "  test space dau　cuoi  ").should(
             "have.value",
-            "testspacedaucuoi"
+            "testspacedaucuoi",
           );
         });
 
@@ -366,7 +366,7 @@ describe(`TRUY CẬP SITE MEDIA MARKET: ${Cypress.env("mm-host")}/`, () => {
               .should(
                 "have.attr",
                 "placeholder",
-                "200.200.200.1, 200.200.200.2, 200.200.200.3 複数の場合コンマ(,)区切りで登録"
+                "200.200.200.1, 200.200.200.2, 200.200.200.3 複数の場合コンマ(,)区切りで登録",
               );
           });
           it("GUI_75 - Trường hợp No26 check chọn giá trị:+ '利用しない'", () => {
@@ -378,14 +378,14 @@ describe(`TRUY CẬP SITE MEDIA MARKET: ${Cypress.env("mm-host")}/`, () => {
               .should(
                 "have.attr",
                 "placeholder",
-                "200.200.200.1, 200.200.200.2, 200.200.200.3 複数の場合コンマ(,)区切りで登録"
+                "200.200.200.1, 200.200.200.2, 200.200.200.3 複数の場合コンマ(,)区切りで登録",
               );
           });
           it("GUI_76 - Trường hợp chuyển đổi qua lại giữa 2 loại checkbox", () => {
             cy.get("@usingApi").click({ force: true });
             cy.typing("@ipAddress", "192.168.1.1").should(
               "have.value",
-              "192.168.1.1"
+              "192.168.1.1",
             );
             cy.wait(1000);
             cy.get("@notUsingApi").click({ force: true });
@@ -396,7 +396,7 @@ describe(`TRUY CẬP SITE MEDIA MARKET: ${Cypress.env("mm-host")}/`, () => {
               .should(
                 "have.attr",
                 "placeholder",
-                "200.200.200.1, 200.200.200.2, 200.200.200.3 複数の場合コンマ(,)区切りで登録"
+                "200.200.200.1, 200.200.200.2, 200.200.200.3 複数の場合コンマ(,)区切りで登録",
               );
           });
           it("GUI_77 - Kiểm tra bắt buộc nhập", () => {
@@ -429,7 +429,7 @@ describe(`TRUY CẬP SITE MEDIA MARKET: ${Cypress.env("mm-host")}/`, () => {
               cy.checkToolTipValidate(
                 true,
                 "IPアドレスを正しく入力してください。",
-                ".c-input-common__tooltip-item"
+                ".c-input-common__tooltip-item",
               );
               cy.checkButton(false);
             });
@@ -440,11 +440,11 @@ describe(`TRUY CẬP SITE MEDIA MARKET: ${Cypress.env("mm-host")}/`, () => {
             cy.log(`Đã nhâp ${textMaxLength.length} kí tự`);
             cy.typing("@ipAddress", textMaxLength).should(
               "have.class",
-              "is-valid"
+              "is-valid",
             );
             cy.checkToolTipValidate(false);
           });
-        }
+        },
       );
 
       context("Kiểm tra Back browser và reload màn hình", () => {
@@ -452,7 +452,7 @@ describe(`TRUY CẬP SITE MEDIA MARKET: ${Cypress.env("mm-host")}/`, () => {
           cy.go(-1);
           cy.url().should(
             "eq",
-            `${Cypress.env("mm-host")}/merchant/registration/`
+            `${Cypress.env("mm-host")}/merchant/registration/`,
           );
           cy.get(".c-box-check__body").should("have.class", "is-valid");
         });
@@ -473,11 +473,11 @@ describe(`TRUY CẬP SITE MEDIA MARKET: ${Cypress.env("mm-host")}/`, () => {
             .parent()
             .checkToolTipValidate(
               true,
-              "サービスの名称は全角文字、半角文字で入力してください。"
+              "サービスの名称は全角文字、半角文字で入力してください。",
             );
         });
 
-        it.only("GUI_139 - Nhập all data hợp lệ", () => {
+        it("GUI_139 - Nhập all data hợp lệ", () => {
           cy.fillAllFieldsMerchant(DATA_MERCHANT_FILL);
           cy.checkButton(true);
           cy.reload();
@@ -485,6 +485,6 @@ describe(`TRUY CẬP SITE MEDIA MARKET: ${Cypress.env("mm-host")}/`, () => {
           cy.checkButton(true);
         });
       });
-    }
+    },
   );
 });
