@@ -30,8 +30,8 @@ context("Utilities", () => {
       // get the dataUrl string for the javascript-logo
       return Cypress.Blob.imgSrcToDataURL(
         `${Cypress.env(
-          "host"
-        )}/assets/img/javascript-logo.png', undefined, 'anonymous`
+          "host",
+        )}/assets/img/javascript-logo.png', undefined, 'anonymous`,
       ).then((dataUrl) => {
         // create an <img> element and set its src to the dataUrl
         let img = Cypress.$("<img />", { src: dataUrl });
@@ -86,7 +86,7 @@ context("Utilities", () => {
      */
     function waitOneSecond() {
       // return a promise that resolves after 1 second
-      return new Cypress.Promise((resolve, reject) => {
+      return new Cypress.Promise((resolve) => {
         setTimeout(() => {
           // set waited to true
           waited = true;
