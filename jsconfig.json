@@ -1,0 +1,10 @@
+  {
+    "compilerOptions": {
+    //   "baseUrl": ".",
+      "paths": {
+        "@/*": ["./cypress/*"],
+      }
+    },
+    "exclude": ["node_modules"]
+  }
+  

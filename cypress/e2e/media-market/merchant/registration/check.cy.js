@@ -1,7 +1,4 @@
-import {
-  LIST_FIELD_MERCHANT,
-  DATA_MERCHANT_FILL,
-} from "../../../../constants/merchant";
+import { LIST_FIELD_MERCHANT, DATA_MERCHANT_FILL } from "@/constants/merchant";
 describe(`TRUY CẬP SITE MEDIA MARKET: ${Cypress.env("mm-host")}/`, () => {
   before(() => {
     cy.loginAndSaveCookies();
