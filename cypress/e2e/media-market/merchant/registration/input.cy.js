@@ -1,11 +1,13 @@
-import { notFullwidthOrSpaceRegex } from "../../../../support/validator";
+import { notFullwidthOrSpaceRegex } from "@/support/validator";
 import {
   LIST_FIELD_MERCHANT,
   DATA_MERCHANT_FILL,
-} from "../../../../constants/merchant";
+  PAYMENT_SERVICE_TEXT,
+} from "@/constants/merchant";
 
 describe(`TRUY CẬP SITE MEDIA MARKET: ${Cypress.env("mm-host")}/`, () => {
   let example;
+  let paymentService;
   before(() => {
     cy.loginAndSaveCookies();
     cy.fixture("example").then((data) => {
@@ -16,7 +18,7 @@ describe(`TRUY CẬP SITE MEDIA MARKET: ${Cypress.env("mm-host")}/`, () => {
   beforeEach(() => {
     cy.setCookieAfterLogin();
     cy.visit(`${Cypress.env("mm-host")}/`);
-    cy.get(".c-unit-setting__config-icon > img").click({ force: true });
+    cy.get(".c-unit-setting__config-icon > img").click();
     cy.wait(500);
     cy.intercept("GET", "**/merchant").as("getMerchant");
     cy.contains("マーチャント設定")
@@ -488,6 +490,68 @@ describe(`TRUY CẬP SITE MEDIA MARKET: ${Cypress.env("mm-host")}/`, () => {
           cy.checkFieldMerchant(DATA_MERCHANT_FILL);
           cy.checkButton(true);
         });
+      });
+    }
+  );
+
+  context.only(
+    `KIỂM TRA MÀN: ${Cypress.env("mm-host")}/merchant/registration/check`,
+    () => {
+      it("GUI_39 - Kiểm tra back browser", () => {
+        cy.fillAllFieldsMerchant(DATA_MERCHANT_FILL);
+        paymentService = PAYMENT_SERVICE_TEXT.find(
+          (item) => item.paymentService === DATA_MERCHANT_FILL.paymentService
+        ).text;
+        cy.get(".c-btn-common--blue").click();
+        cy.go(-1);
+        cy.url().should(
+          "eq",
+          `${Cypress.env("mm-host")}/merchant/registration/input/`
+        );
+        cy.checkFieldMerchant(DATA_MERCHANT_FILL);
+      });
+
+      it("GUI_44 - Kiểm tra reload màn hình", () => {
+        cy.fillAllFieldsMerchant(DATA_MERCHANT_FILL);
+        cy.get(".c-btn-common--blue").click();
+        cy.contains(DATA_MERCHANT_FILL.model ? "B to Cモデル" : "B to Bモデル");
+        cy.contains(DATA_MERCHANT_FILL.industry);
+        cy.contains(DATA_MERCHANT_FILL.serviceName);
+        cy.contains(DATA_MERCHANT_FILL.webURL);
+        cy.contains(DATA_MERCHANT_FILL.transactionPerMonth);
+        cy.contains(DATA_MERCHANT_FILL.estimateAmountPerMonth);
+        cy.contains(DATA_MERCHANT_FILL.ipAddress);
+        cy.contains(paymentService);
+      });
+
+      it("GUI_45 +  46 + 47- Kiểm tra thực hiện đăng ký thành công", () => {
+        cy.fillAllFieldsMerchant(DATA_MERCHANT_FILL);
+        cy.get(".c-btn-common--blue").click();
+        cy.intercept("POST", "**/create").as("createMerchant");
+        cy.get(".c-unit-btn-wrap__btn > .c-btn-common--orange").click();
+
+        cy.wait("@createMerchant").then((interception) => {
+          expect(interception.response.statusCode).to.equal(200);
+        });
+        cy.url().should(
+          "eq",
+          `${Cypress.env("mm-host")}/merchant/registration/request-success/`
+        );
+
+        // Check các case màn request_success
+
+        //GUI_12 - Kiểm tra reload màn hình
+        cy.reload();
+        cy.url().should(
+          "eq",
+          `${Cypress.env("mm-host")}/merchant/registration/request-success/`
+        );
+
+        //GUI_9 - Kiểm tra back browser
+        cy.wait(3000);
+        cy.go(-1);
+        cy.wait(3000);
+        cy.url().should("eq", `${Cypress.env("mm-host")}/`);
       });
     }
   );
