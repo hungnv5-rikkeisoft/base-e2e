@@ -1,7 +1,8 @@
 const { defineConfig } = require("cypress");
 
 module.exports = defineConfig({
- env: {
+  projectId: "9o64v4",
+  env: {
     baseURL: process.env.BASE_URL,
   },
   e2e: {
