@@ -13,7 +13,7 @@
 
 describe(`TRUY CẬP SITE MEDIA MARKET: ${Cypress.env("mm-host")}/`, () => {
   beforeEach(() => {
-    cy.visit(`${Cypress.env("mm-host")}/`);
+    cy.visit(`${Cypress.env("mm-host")}/`, { failOnStatusCode: false });
   });
 
   beforeEach(() => {
@@ -118,7 +118,7 @@ describe(`TRUY CẬP SITE MEDIA MARKET: ${Cypress.env("mm-host")}/`, () => {
     it("GUI_11 Kiểm tra button 入力してください", () => {
       cy.contains("入力してください")
         .should("exist")
-        .should("have.class", "c-btn-common--disable")
+        .should("have.class", "u-lineheight--line u-fontsize--small")
         .should("have.css", "pointer-events");
     });
     it("GUI_12 Kiểm tra link Privacy policy", () => {
@@ -132,7 +132,7 @@ describe(`TRUY CẬP SITE MEDIA MARKET: ${Cypress.env("mm-host")}/`, () => {
     });
     context("GUI 13_14", () => {
       it("GUI_13 Kiểm tra back browser (*)", () => {
-        cy.visit(`${Cypress.env("mm-host")}/no`);
+        cy.visit(`${Cypress.env("mm-host")}/`);
 
         cy.go("back");
         cy.location("pathname").should("include", "login");

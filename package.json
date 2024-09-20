@@ -7,8 +7,9 @@
     "e2e": "cypress open"
   },
   "devDependencies": {
-    "cypress": "^13.13.1",
-    "nuxt": "2",
-    "vue": "2"
+    "cypress": "^13.13.2"
+  },
+  "dependencies": {
+    "dotenv": "^16.4.5"
   }
 }
