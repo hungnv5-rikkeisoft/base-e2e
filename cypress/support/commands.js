@@ -51,12 +51,12 @@ Cypress.Commands.add(
   (
     isExist,
     text,
-    classTooltip = ".c-input-common__tooltip-item--white-space-inherit",
+    classTooltip = ".c-input-common__tooltip-item--white-space-inherit"
   ) => {
     if (isExist) {
       cy.get(classTooltip).should("be.visible").and("have.text", text);
     } else {
       cy.get(classTooltip).should("not.exist");
     }
-  },
+  }
 );

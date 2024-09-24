@@ -16,9 +16,7 @@ describe(`TRUY CẬP SITE MEDIA MARKET: ${Cypress.env("mm-host")}/`, () => {
   });
 
   context(
-    `KIỂM TRA MÀN: ${Cypress.env(
-      "mm-host"
-    )}/merchant/registration/under-review/`,
+    `KIỂM TRA MÀN: ${Cypress.env("mm-host")}/merchant/registration/`,
     () => {
       it("FUNCTION_1 - Kiểm tra loading", () => {
         //
@@ -26,7 +24,8 @@ describe(`TRUY CẬP SITE MEDIA MARKET: ${Cypress.env("mm-host")}/`, () => {
 
       it("FUNCTION_2 - Kiểm tra thực hiện reload màn hình", () => {
         cy.reload();
-        cy.checkDataMerchantDisplay();
+        cy.wait(2000);
+        cy.checkDataMerchantDisplay(true);
       });
 
       it("FUNCTION_3 - Kiểm tra back browser", () => {

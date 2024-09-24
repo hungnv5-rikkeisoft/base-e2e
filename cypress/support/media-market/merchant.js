@@ -1,6 +1,6 @@
 import { DATA_MERCHANT_FILL, PAYMENT_SERVICE_TEXT } from "@/constants/merchant";
 
-Cypress.Commands.add("getFieldMerchant", (fieldName) => {
+Cypress.Commands.add("getElementMerchant", (fieldName) => {
   const selectors = {
     B_to_C:
       ".c-unit-radio-box--check > .c-unit-radio-box__body--hint:nth-child(1)",
@@ -22,6 +22,13 @@ Cypress.Commands.add("getFieldMerchant", (fieldName) => {
       ".c-unit-radio-box--row > .c-unit-radio-box__body--small:nth-child(2)",
     ipAddress:
       ".c-table-box__inner > .c-table-box__body > .c-input-common--info > textarea",
+    ipAddressChange:
+      ".c-table-box__inner > .c-table-box__body > .c-table-box__flex--start  > .c-input-common--info > textarea",
+    webURLChange:
+      ".c-table-box__inner--start-mobile > .c-table-box__body > .c-table-box__flex--column-note-center > .c-input-common--info > input",
+    btnIPAddress:
+      ".c-table-box__flex--start > .c-table-box__btn--column > .u-disp-none--PU",
+    btnWebURL: ".c-table-box__flex--column-note-center > .c-table-box__btn",
   };
 
   const selector = selectors[fieldName];
@@ -59,6 +66,15 @@ Cypress.Commands.add("checkButton", (isEnable) => {
   }
 });
 
+Cypress.Commands.add("checkButtonConfirm", (isEnable) => {
+  cy.contains("確認する")
+    .parent()
+    .should(
+      "have.class",
+      isEnable ? "c-btn-common--blue" : "c-btn-common--disable"
+    );
+});
+
 Cypress.Commands.add(
   "fillAllFieldsMerchant",
   ({
@@ -82,7 +98,7 @@ Cypress.Commands.add(
       .and("have.value", serviceName);
 
     cy.get(
-      `:nth-child(${paymentService}) > .c-unit-checkbox > .c-unit-checkbox__box`,
+      `:nth-child(${paymentService}) > .c-unit-checkbox > .c-unit-checkbox__box`
     ).click({
       force: true,
     });
@@ -103,7 +119,7 @@ Cypress.Commands.add(
         .should("have.class", "is-valid")
         .and("have.value", ipAddress);
     }
-  },
+  }
 );
 
 Cypress.Commands.add(
@@ -121,25 +137,25 @@ Cypress.Commands.add(
   }) => {
     cy.get(`${model ? "@B_to_C" : "@B_to_B"}`).should(
       "have.class",
-      "is-active",
+      "is-active"
     );
     cy.contains(industry);
     cy.get("@serviceName").should("have.value", serviceName);
     cy.get(
-      `:nth-child(${paymentService}) > .c-unit-checkbox > .c-unit-checkbox__box`,
+      `:nth-child(${paymentService}) > .c-unit-checkbox > .c-unit-checkbox__box`
     ).should("have.class", "is-valid");
     cy.get("@webURL").should("have.value", webURL);
     cy.contains(transactionPerMonth);
     cy.contains(estimateAmountPerMonth);
     cy.get(usingApi ? "@usingApi" : "@notUsingApi").should(
       "have.class",
-      "is-active",
+      "is-active"
     );
     cy.get("@ipAddress").should("have.value", ipAddress);
-  },
+  }
 );
 
-Cypress.Commands.add("checkDataMerchantDisplay", () => {
+Cypress.Commands.add("checkDataMerchantDisplay", (isTextarea = false) => {
   let paymentService = PAYMENT_SERVICE_TEXT.find(
     (item) => item.paymentService === DATA_MERCHANT_FILL.paymentService
   ).text;
@@ -149,7 +165,14 @@ Cypress.Commands.add("checkDataMerchantDisplay", () => {
   cy.contains(DATA_MERCHANT_FILL.webURL);
   cy.contains(DATA_MERCHANT_FILL.transactionPerMonth);
   cy.contains(DATA_MERCHANT_FILL.estimateAmountPerMonth);
-  cy.contains(DATA_MERCHANT_FILL.ipAddress);
+
+  if (isTextarea) {
+    cy.get(
+      ".c-table-box__flex--start > .c-input-common--info > textarea"
+    ).should("have.value", DATA_MERCHANT_FILL.ipAddress);
+  } else {
+    cy.contains(DATA_MERCHANT_FILL.ipAddress);
+  }
   cy.contains(DATA_MERCHANT_FILL.usingApi ? "利用する" : "利用しない");
   cy.contains(paymentService);
 });
