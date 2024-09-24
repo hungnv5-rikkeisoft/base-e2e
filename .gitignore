@@ -30,4 +30,4 @@ _ReSharper*/
 #Nuget packages folder
 packages/
 node_modules/
-cypress.env.json
+/cypress.env.json
