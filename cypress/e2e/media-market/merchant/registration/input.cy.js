@@ -25,7 +25,7 @@ describe(`TRUY CẬP SITE MEDIA MARKET: ${Cypress.env("mm-host")}/`, () => {
       .should("have.class", "c-card-balloon__text")
       .click();
     cy.wait("@getMerchant");
-    cy.get("label.c-box-check__body").scrollIntoView().click({ force: true });
+    // cy.get("label.c-box-check__body").scrollIntoView().click({ force: true });
     cy.visit(`${Cypress.env("mm-host")}/merchant/registration/input`);
     LIST_FIELD_MERCHANT.forEach((item) => {
       cy.getFieldMerchant(item);
@@ -494,19 +494,19 @@ describe(`TRUY CẬP SITE MEDIA MARKET: ${Cypress.env("mm-host")}/`, () => {
     },
   );
 
-  context.only(
+  context(
     `KIỂM TRA MÀN: ${Cypress.env("mm-host")}/merchant/registration/check`,
     () => {
       it("GUI_39 - Kiểm tra back browser", () => {
         cy.fillAllFieldsMerchant(DATA_MERCHANT_FILL);
         paymentService = PAYMENT_SERVICE_TEXT.find(
-          (item) => item.paymentService === DATA_MERCHANT_FILL.paymentService
+          (item) => item.paymentService === DATA_MERCHANT_FILL.paymentService,
         ).text;
         cy.get(".c-btn-common--blue").click();
         cy.go(-1);
         cy.url().should(
           "eq",
-          `${Cypress.env("mm-host")}/merchant/registration/input/`
+          `${Cypress.env("mm-host")}/merchant/registration/input/`,
         );
         cy.checkFieldMerchant(DATA_MERCHANT_FILL);
       });
@@ -535,7 +535,7 @@ describe(`TRUY CẬP SITE MEDIA MARKET: ${Cypress.env("mm-host")}/`, () => {
         });
         cy.url().should(
           "eq",
-          `${Cypress.env("mm-host")}/merchant/registration/request-success/`
+          `${Cypress.env("mm-host")}/merchant/registration/request-success/`,
         );
 
         // Check các case màn request_success
@@ -544,7 +544,7 @@ describe(`TRUY CẬP SITE MEDIA MARKET: ${Cypress.env("mm-host")}/`, () => {
         cy.reload();
         cy.url().should(
           "eq",
-          `${Cypress.env("mm-host")}/merchant/registration/request-success/`
+          `${Cypress.env("mm-host")}/merchant/registration/request-success/`,
         );
 
         //GUI_9 - Kiểm tra back browser
@@ -553,6 +553,6 @@ describe(`TRUY CẬP SITE MEDIA MARKET: ${Cypress.env("mm-host")}/`, () => {
         cy.wait(3000);
         cy.url().should("eq", `${Cypress.env("mm-host")}/`);
       });
-    }
+    },
   );
 });
