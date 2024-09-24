@@ -1,3 +1,5 @@
+import { DATA_MERCHANT_FILL, PAYMENT_SERVICE_TEXT } from "@/constants/merchant";
+
 Cypress.Commands.add("getFieldMerchant", (fieldName) => {
   const selectors = {
     B_to_C:
@@ -136,3 +138,18 @@ Cypress.Commands.add(
     cy.get("@ipAddress").should("have.value", ipAddress);
   },
 );
+
+Cypress.Commands.add("checkDataMerchantDisplay", () => {
+  let paymentService = PAYMENT_SERVICE_TEXT.find(
+    (item) => item.paymentService === DATA_MERCHANT_FILL.paymentService
+  ).text;
+  cy.contains(DATA_MERCHANT_FILL.model ? "B to Cモデル" : "B to Bモデル");
+  cy.contains(DATA_MERCHANT_FILL.industry);
+  cy.contains(DATA_MERCHANT_FILL.serviceName);
+  cy.contains(DATA_MERCHANT_FILL.webURL);
+  cy.contains(DATA_MERCHANT_FILL.transactionPerMonth);
+  cy.contains(DATA_MERCHANT_FILL.estimateAmountPerMonth);
+  cy.contains(DATA_MERCHANT_FILL.ipAddress);
+  cy.contains(DATA_MERCHANT_FILL.usingApi ? "利用する" : "利用しない");
+  cy.contains(paymentService);
+});

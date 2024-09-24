@@ -22,3 +22,26 @@ export const DATA_MERCHANT_FILL = {
   usingApi: true,
   ipAddress: "192.168.1.1",
 };
+
+export const PAYMENT_SERVICE_TEXT = [
+  {
+    paymentService: 1,
+    text: "クレジットカード決済",
+  },
+  {
+    paymentService: 2,
+    text: "コンビニ決済",
+  },
+  {
+    paymentService: 3,
+    text: "モバイル決済",
+  },
+  {
+    paymentService: 4,
+    text: "国内銀行口座決済",
+  },
+  {
+    paymentService: 5,
+    text: "振込代行",
+  },
+];
