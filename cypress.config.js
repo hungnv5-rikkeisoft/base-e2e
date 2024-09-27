@@ -24,6 +24,8 @@ module.exports = defineConfig({
       on("file:preprocessor", webpackPreprocessor(wpOptions));
     },
     chromeWebSecurity: false,
+    viewportWidth: 1920,
+    viewportHeight: 1080,
   },
 
   component: {

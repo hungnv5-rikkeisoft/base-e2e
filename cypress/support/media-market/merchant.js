@@ -176,3 +176,20 @@ Cypress.Commands.add("checkDataMerchantDisplay", (isTextarea = false) => {
   cy.contains(DATA_MERCHANT_FILL.usingApi ? "利用する" : "利用しない");
   cy.contains(paymentService);
 });
+
+Cypress.Commands.add("checkToolTipValidateMM", (elInput, isExist, text) => {
+  if (isExist) {
+    cy.get(elInput)
+      .should("have.class", "is-error")
+      .closest(".c-input-common--info")
+      .find("span.c-input-common__tooltip > span")
+      .should("be.visible")
+      .and("have.text", text);
+  } else {
+    cy.get(elInput)
+      .should("not.have.class", "is-error")
+      .closest(".c-input-common--info")
+      .find("span.c-input-common__tooltip > span")
+      .should("not.exist");
+  }
+});

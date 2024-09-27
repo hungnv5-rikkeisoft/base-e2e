@@ -18,8 +18,9 @@ Cypress.Commands.add("loginAndSaveCookies", (host) => {
   cy.get("@password")
     .focus()
     .clear()
-    .type(`${Cypress.env("password")}`);
-  cy.get("@password").focus().type("{enter}");
+    .type(`${Cypress.env("password")}`, { delay: 100 })
+    .focus()
+    .type("{enter}", { delay: 100 });
 
   cy.wait("@meRequest").then((interception) => {
     expect(interception.response.statusCode).to.equal(200);
@@ -45,18 +46,3 @@ Cypress.Commands.add("typing", (field, val) => {
     cy.get(field).focus().clear().blur();
   }
 });
-
-Cypress.Commands.add(
-  "checkToolTipValidate",
-  (
-    isExist,
-    text,
-    classTooltip = ".c-input-common__tooltip-item--white-space-inherit"
-  ) => {
-    if (isExist) {
-      cy.get(classTooltip).should("be.visible").and("have.text", text);
-    } else {
-      cy.get(classTooltip).should("not.exist");
-    }
-  }
-);

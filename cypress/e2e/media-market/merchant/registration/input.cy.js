@@ -21,9 +21,7 @@ describe(`TRUY CẬP SITE MEDIA MARKET: ${Cypress.env("mm-host")}/`, () => {
     cy.get(".c-unit-setting__config-icon > img").click();
     cy.wait(500);
     cy.intercept("GET", "**/merchant").as("getMerchant");
-    cy.contains("マーチャント設定")
-      .should("have.class", "c-card-balloon__text")
-      .click();
+    cy.contains("マーチャント設定").click();
     cy.wait("@getMerchant");
     cy.get("label.c-box-check__body").scrollIntoView().click({ force: true });
     cy.visit(`${Cypress.env("mm-host")}/merchant/registration/input`);
@@ -75,7 +73,11 @@ describe(`TRUY CẬP SITE MEDIA MARKET: ${Cypress.env("mm-host")}/`, () => {
           cy.get("@serviceName")
             .should("have.class", "is-error")
             .and("have.value", "");
-          cy.checkToolTipValidate(true, "サービスの名称を入力してください。");
+          cy.checkToolTipValidateMM(
+            "@serviceName",
+            true,
+            "サービスの名称を入力してください。"
+          );
           cy.checkButton(false);
         });
 
@@ -87,14 +89,15 @@ describe(`TRUY CẬP SITE MEDIA MARKET: ${Cypress.env("mm-host")}/`, () => {
                 const text = $el.text();
                 expect(text).to.match(notFullwidthOrSpaceRegex);
               });
-            cy.checkToolTipValidate(false);
+            cy.checkToolTipValidateMM("@serviceName", false);
           });
         });
 
         it("GUI_26 - Kiểm tra nhập liệu không hợp lệ", () => {
           example.service_name.in_valid.forEach((val) => {
             cy.typing("@serviceName", val).should("have.class", "is-error");
-            cy.checkToolTipValidate(
+            cy.checkToolTipValidateMM(
+              "@serviceName",
               true,
               "サービスの名称は全角文字、半角文字で入力してください。"
             );
@@ -109,7 +112,8 @@ describe(`TRUY CẬP SITE MEDIA MARKET: ${Cypress.env("mm-host")}/`, () => {
         it("GUI_28 - Kiểm tra max length.Nhập > 255 kí tự", () => {
           const longText = "a".repeat(256);
           cy.typing("@serviceName", longText).should("have.class", "is-error");
-          cy.checkToolTipValidate(
+          cy.checkToolTipValidateMM(
+            "@serviceName",
             true,
             "サービスの名称は255文字以内で入力してください。"
           );
@@ -121,7 +125,7 @@ describe(`TRUY CẬP SITE MEDIA MARKET: ${Cypress.env("mm-host")}/`, () => {
           cy.typing("@serviceName", longText)
             .should("have.class", "is-valid")
             .and("have.value", longText);
-          cy.checkToolTipValidate(false);
+          cy.checkToolTipValidateMM("@serviceName", false);
         });
 
         it("GUI_30 - Kiểm tra max length.Nhập < 255 kí tự", () => {
@@ -129,7 +133,7 @@ describe(`TRUY CẬP SITE MEDIA MARKET: ${Cypress.env("mm-host")}/`, () => {
           cy.typing("@serviceName", longText)
             .should("have.class", "is-valid")
             .and("have.value", longText);
-          cy.checkToolTipValidate(false);
+          cy.checkToolTipValidateMM("@serviceName", false);
         });
 
         it("GUI_31 - Kiểm tra copy, paste dữ liệu", () => {
@@ -173,7 +177,7 @@ describe(`TRUY CẬP SITE MEDIA MARKET: ${Cypress.env("mm-host")}/`, () => {
               "have.class",
               "is-error"
             );
-            cy.checkToolTipValidate(true, item.message);
+            cy.checkToolTipValidateMM("@serviceName", true, item.message);
           });
         });
       });
@@ -223,7 +227,7 @@ describe(`TRUY CẬP SITE MEDIA MARKET: ${Cypress.env("mm-host")}/`, () => {
           cy.get("@webURL")
             .should("not.have.class", "is-error")
             .and("have.value", "");
-          cy.checkToolTipValidate(false);
+          cy.checkToolTipValidateMM("@webURL", false);
         });
         it("GUI_44 - Kiểm tra nhập liệu hợp lệ", () => {
           example.web_url.valid.forEach((val) => {
@@ -233,13 +237,14 @@ describe(`TRUY CẬP SITE MEDIA MARKET: ${Cypress.env("mm-host")}/`, () => {
                 const text = $el.text();
                 expect(text).to.match(notFullwidthOrSpaceRegex);
               });
-            cy.checkToolTipValidate(false);
+            cy.checkToolTipValidateMM("@webURL", false);
           });
         });
         it("GUI_45 - Kiểm tra nhập dữ liệu không hợp lệ", () => {
           example.web_url.in_valid.forEach((val) => {
             cy.typing("@webURL", val).should("have.class", "is-error");
-            cy.checkToolTipValidate(
+            cy.checkToolTipValidateMM(
+              "@webURL",
               true,
               "WEBサイトURLは半角英字、半角数字、半角記号で入力してください。"
             );
@@ -254,7 +259,8 @@ describe(`TRUY CẬP SITE MEDIA MARKET: ${Cypress.env("mm-host")}/`, () => {
         it("GUI_47 - Kiểm tra max length.Nhập > 255 kí tự", () => {
           const longText = "a".repeat(256);
           cy.typing("@webURL", longText).should("have.class", "is-error");
-          cy.checkToolTipValidate(
+          cy.checkToolTipValidateMM(
+            "@webURL",
             true,
             "WEBサイトURLは255文字以内で入力してください。"
           );
@@ -266,7 +272,7 @@ describe(`TRUY CẬP SITE MEDIA MARKET: ${Cypress.env("mm-host")}/`, () => {
           cy.typing("@webURL", longText)
             .should("have.class", "is-valid")
             .and("have.value", longText);
-          cy.checkToolTipValidate(false);
+          cy.checkToolTipValidateMM("@webURL", false);
         });
 
         it("GUI_49 - Kiểm tra max length.Nhập < 255 kí tự", () => {
@@ -274,7 +280,7 @@ describe(`TRUY CẬP SITE MEDIA MARKET: ${Cypress.env("mm-host")}/`, () => {
           cy.typing("@webURL", longText)
             .should("have.class", "is-valid")
             .and("have.value", longText);
-          cy.checkToolTipValidate(false);
+          cy.checkToolTipValidateMM("@webURL", false);
         });
 
         it("GUI_50 - Kiểm tra copy, paste dữ liệu", () => {
@@ -308,7 +314,7 @@ describe(`TRUY CẬP SITE MEDIA MARKET: ${Cypress.env("mm-host")}/`, () => {
           data.forEach((item) => {
             cy.typing("@webURL", item.text).should("have.class", "is-error");
 
-            cy.checkToolTipValidate(true, item.message);
+            cy.checkToolTipValidateMM("@webURL", true, item.message);
           });
         });
       });
@@ -411,7 +417,7 @@ describe(`TRUY CẬP SITE MEDIA MARKET: ${Cypress.env("mm-host")}/`, () => {
             cy.get("@ipAddress")
               .should("not.have.class", "is-error")
               .and("have.value", "");
-            cy.checkToolTipValidate(false);
+            cy.checkToolTipValidateMM("@ipAddress", false);
           });
           it("GUI_78 - Kiểm tra nhập liệu hợp lệ", () => {
             cy.get("@usingApi").click({ force: true });
@@ -422,7 +428,7 @@ describe(`TRUY CẬP SITE MEDIA MARKET: ${Cypress.env("mm-host")}/`, () => {
                   const text = $el.text();
                   expect(text).to.match(notFullwidthOrSpaceRegex);
                 });
-              cy.checkToolTipValidate(false);
+              cy.checkToolTipValidateMM("@ipAddress", false);
             });
           });
           it("GUI_79 - Kiểm tra nhập dữ liệu không hợp lệ", () => {
@@ -431,10 +437,10 @@ describe(`TRUY CẬP SITE MEDIA MARKET: ${Cypress.env("mm-host")}/`, () => {
             example.ip_address.in_valid.forEach((val) => {
               cy.typing("@ipAddress", val).should("have.class", "is-error");
               cy.wait(1000);
-              cy.checkToolTipValidate(
+              cy.checkToolTipValidateMM(
+                "@ipAddress",
                 true,
-                "IPアドレスを正しく入力してください。",
-                ".c-input-common__tooltip-item"
+                "IPアドレスを正しく入力してください。"
               );
               cy.checkButton(false);
             });
@@ -447,7 +453,7 @@ describe(`TRUY CẬP SITE MEDIA MARKET: ${Cypress.env("mm-host")}/`, () => {
               "have.class",
               "is-valid"
             );
-            cy.checkToolTipValidate(false);
+            cy.checkToolTipValidateMM("@ipAddress", false);
           });
         }
       );
@@ -477,7 +483,8 @@ describe(`TRUY CẬP SITE MEDIA MARKET: ${Cypress.env("mm-host")}/`, () => {
           cy.wait(1000);
           cy.get("@serviceName")
             .parent()
-            .checkToolTipValidate(
+            .checkToolTipValidateMM(
+              "@serviceName",
               true,
               "サービスの名称は全角文字、半角文字で入力してください。"
             );
@@ -494,7 +501,7 @@ describe(`TRUY CẬP SITE MEDIA MARKET: ${Cypress.env("mm-host")}/`, () => {
     }
   );
 
-  context.only(
+  context(
     `KIỂM TRA MÀN: ${Cypress.env("mm-host")}/merchant/registration/check`,
     () => {
       it("GUI_39 - Kiểm tra back browser", () => {
@@ -504,6 +511,7 @@ describe(`TRUY CẬP SITE MEDIA MARKET: ${Cypress.env("mm-host")}/`, () => {
         ).text;
         cy.get(".c-btn-common--blue").click();
         cy.go(-1);
+        cy.wait(1000);
         cy.url().should(
           "eq",
           `${Cypress.env("mm-host")}/merchant/registration/input/`

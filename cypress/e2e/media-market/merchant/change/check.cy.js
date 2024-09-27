@@ -9,7 +9,6 @@ describe(`TRUY CẬP SITE MEDIA MARKET: ${Cypress.env("mm-host")}/`, () => {
   });
 
   beforeEach(() => {
-    cy.viewport(1920, 1080);
     cy.setCookieAfterLogin();
     cy.visit(`${Cypress.env("mm-host")}/`);
     cy.get(".c-unit-setting__config-icon > img").click();

@@ -10,7 +10,6 @@ describe(`TRUY CẬP SITE MEDIA MARKET: ${Cypress.env("mm-host")}/`, () => {
   });
 
   beforeEach(() => {
-    cy.viewport(1920, 1080);
     cy.setCookieAfterLogin();
     cy.visit(`${Cypress.env("mm-host")}/`);
     cy.get(".c-unit-setting__config-icon > img").click();
@@ -36,7 +35,7 @@ describe(`TRUY CẬP SITE MEDIA MARKET: ${Cypress.env("mm-host")}/`, () => {
             cy.get("@ipAddressChange")
               .should("not.have.class", "is-error")
               .and("have.value", "");
-            cy.checkToolTipValidate(false);
+            cy.checkToolTipValidateMM("@ipAddressChange", false);
           });
           it("GUI_7 - Kiểm tra nhập liệu hợp lệ", () => {
             cy.get("@btnIPAddress").click();
@@ -51,7 +50,7 @@ describe(`TRUY CẬP SITE MEDIA MARKET: ${Cypress.env("mm-host")}/`, () => {
                   const text = $el.text();
                   expect(text).to.match(notFullwidthOrSpaceRegex);
                 });
-              cy.checkToolTipValidate(false);
+              cy.checkToolTipValidateMM("@ipAddressChange", false);
               cy.checkButtonConfirm(true);
             });
           });
@@ -64,10 +63,10 @@ describe(`TRUY CẬP SITE MEDIA MARKET: ${Cypress.env("mm-host")}/`, () => {
                 "is-error"
               );
               cy.wait(1000);
-              cy.checkToolTipValidate(
+              cy.checkToolTipValidateMM(
+                "@ipAddressChange",
                 true,
-                "IPアドレスを正しく入力してください。",
-                ".c-input-common__tooltip-item"
+                "IPアドレスを正しく入力してください。"
               );
               cy.checkButtonConfirm(false);
             });
@@ -80,7 +79,7 @@ describe(`TRUY CẬP SITE MEDIA MARKET: ${Cypress.env("mm-host")}/`, () => {
               "have.class",
               "is-valid"
             );
-            cy.checkToolTipValidate(false);
+            cy.checkToolTipValidateMM("@ipAddressChange", false);
           });
           it("GUI_53 - Kiểm tra mức độ ưu tiên của các loại message validate", () => {
             // Do ô input này chỉ có 1 message check data không hợp lệ nên bỏ qua case này
@@ -101,7 +100,7 @@ describe(`TRUY CẬP SITE MEDIA MARKET: ${Cypress.env("mm-host")}/`, () => {
             cy.get("@webURLChange")
               .should("not.have.class", "is-error")
               .and("have.value", "");
-            cy.checkToolTipValidate(false);
+            cy.checkToolTipValidateMM("@webURLChange", false);
           });
           it("GUI_6 - Kiểm tra nhập liệu hợp lệ", () => {
             cy.get("@btnWebURL").click();
@@ -117,7 +116,7 @@ describe(`TRUY CẬP SITE MEDIA MARKET: ${Cypress.env("mm-host")}/`, () => {
                   const text = $el.text();
                   expect(text).to.match(notFullwidthOrSpaceRegex);
                 });
-              cy.checkToolTipValidate(false);
+              cy.checkToolTipValidateMM("@webURLChange", false);
               cy.checkButtonConfirm(true);
             });
           });
@@ -126,7 +125,8 @@ describe(`TRUY CẬP SITE MEDIA MARKET: ${Cypress.env("mm-host")}/`, () => {
             cy.getElementMerchant("webURLChange");
             example.web_url.in_valid.forEach((val) => {
               cy.typing("@webURLChange", val).should("have.class", "is-error");
-              cy.checkToolTipValidate(
+              cy.checkToolTipValidateMM(
+                "@webURLChange",
                 true,
                 "WEBサイトURLは半角英字、半角数字、半角記号で入力してください。"
               );
@@ -146,7 +146,8 @@ describe(`TRUY CẬP SITE MEDIA MARKET: ${Cypress.env("mm-host")}/`, () => {
               "have.class",
               "is-error"
             );
-            cy.checkToolTipValidate(
+            cy.checkToolTipValidateMM(
+              "@webURLChange",
               true,
               "WEBサイトURLは255文字以内で入力してください。"
             );
@@ -160,7 +161,7 @@ describe(`TRUY CẬP SITE MEDIA MARKET: ${Cypress.env("mm-host")}/`, () => {
             cy.typing("@webURLChange", longText)
               .should("have.class", "is-valid")
               .and("have.value", longText);
-            cy.checkToolTipValidate(false);
+            cy.checkToolTipValidateMM("@webURLChange", false);
             cy.checkButtonConfirm(true);
           });
 
@@ -171,7 +172,7 @@ describe(`TRUY CẬP SITE MEDIA MARKET: ${Cypress.env("mm-host")}/`, () => {
             cy.typing("@webURLChange", longText)
               .should("have.class", "is-valid")
               .and("have.value", longText);
-            cy.checkToolTipValidate(false);
+            cy.checkToolTipValidateMM("@webURLChange", false);
             cy.checkButtonConfirm(true);
           });
 
@@ -215,7 +216,7 @@ describe(`TRUY CẬP SITE MEDIA MARKET: ${Cypress.env("mm-host")}/`, () => {
                 "is-error"
               );
 
-              cy.checkToolTipValidate(true, item.message);
+              cy.checkToolTipValidateMM("@webURLChange", true, item.message);
               cy.checkButtonConfirm(false);
             });
           });
@@ -233,10 +234,10 @@ describe(`TRUY CẬP SITE MEDIA MARKET: ${Cypress.env("mm-host")}/`, () => {
               "have.class",
               "is-error"
             );
-            cy.checkToolTipValidate(
+            cy.checkToolTipValidateMM(
+              "@ipAddressChange",
               true,
-              "IPアドレスを正しく入力してください。",
-              ".c-input-common__tooltip-item"
+              "IPアドレスを正しく入力してください。"
             );
             cy.checkButtonConfirm(false);
 
@@ -244,10 +245,10 @@ describe(`TRUY CẬP SITE MEDIA MARKET: ${Cypress.env("mm-host")}/`, () => {
             cy.get("@ipAddressChange")
               .should("have.class", "is-error")
               .and("have.value", "11111111");
-            cy.checkToolTipValidate(
+            cy.checkToolTipValidateMM(
+              "@ipAddressChange",
               true,
-              "IPアドレスを正しく入力してください。",
-              ".c-input-common__tooltip-item"
+              "IPアドレスを正しく入力してください。"
             );
             cy.checkButtonConfirm(false);
           });
@@ -257,14 +258,14 @@ describe(`TRUY CẬP SITE MEDIA MARKET: ${Cypress.env("mm-host")}/`, () => {
               "have.class",
               "is-valid"
             );
-            cy.checkToolTipValidate(false);
+            cy.checkToolTipValidateMM("@ipAddressChange", false);
             cy.checkButtonConfirm(true);
 
             cy.reload();
             cy.get("@ipAddressChange")
               .should("have.class", "is-valid")
               .and("have.value", "192.168.1.3");
-            cy.checkToolTipValidate(false);
+            cy.checkToolTipValidateMM("@ipAddressChange", false);
             cy.checkButtonConfirm(true);
           });
         });
