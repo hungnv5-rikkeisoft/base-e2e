@@ -1,10 +1,11 @@
-  {
-    "compilerOptions": {
+{
+  "compilerOptions": {
     //   "baseUrl": ".",
-      "paths": {
-        "@/*": ["./cypress/*"],
-      }
-    },
-    "exclude": ["node_modules"]
-  }
-  
+    "paths": {
+      "@/*": ["./cypress/*"],
+      "@Pages/*": ["./cypress/e2e/Pages/*"],
+      "@Tests/*": ["./cypress/e2e/Tests/*"]
+    }
+  },
+  "exclude": ["node_modules"]
+}

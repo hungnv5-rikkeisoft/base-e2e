@@ -82,14 +82,14 @@ describe(`TRUY CẬP SITE MEDIA MARKET: ${Cypress.env("mm-host")}/`, () => {
           .get("span.c-input-common__tooltip")
           .should("have.class", "is-show")
           .contains(
-            "メールアドレスは半角英字、半角数字、半角記号で入力してください。"
+            "メールアドレスは半角英字、半角数字、半角記号で入力してください。",
           );
       });
       it("GUI_8 Kiểm tra maxlength", () => {
         cy.get("@email")
           .clear()
           .type(
-            "morethan256@g.comaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+            "morethan256@g.comaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
           )
           .blur()
           .wait(500)
@@ -170,10 +170,10 @@ describe(`TRUY CẬP SITE MEDIA MARKET: ${Cypress.env("mm-host")}/`, () => {
     });
     it("FUNCTION_2 Kiểm tra login thành công", () => {
       cy.intercept("POST", "**/login", { fixture: "/login/sucess.json" }).as(
-        "loginSuccess"
+        "loginSuccess",
       );
       cy.intercept("GET", "**/me", { fixture: "/login/me.json" }).as(
-        "meSuccess"
+        "meSuccess",
       );
       cy.get("@loginForm").contains("Login").click().wait(2000);
       cy.location("pathname").should("equal", "/");
@@ -189,7 +189,7 @@ describe(`TRUY CẬP SITE MEDIA MARKET: ${Cypress.env("mm-host")}/`, () => {
 
       cy.get("span.c-input-common__tooltip").should(
         "contain.text",
-        "Emailまたは、パスワードが異なっています。"
+        "Emailまたは、パスワードが異なっています。",
       );
     });
 

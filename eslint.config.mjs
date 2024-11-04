@@ -26,6 +26,6 @@ export default [
     },
   },
   {
-    ignores: ["cypress.config.js"],
+    ignores: ["cypress.config.js", "package.json"],
   },
 ];
