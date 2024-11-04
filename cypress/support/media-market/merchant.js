@@ -141,7 +141,7 @@ Cypress.Commands.add(
 
 Cypress.Commands.add("checkDataMerchantDisplay", () => {
   let paymentService = PAYMENT_SERVICE_TEXT.find(
-    (item) => item.paymentService === DATA_MERCHANT_FILL.paymentService
+    (item) => item.paymentService === DATA_MERCHANT_FILL.paymentService,
   ).text;
   cy.contains(DATA_MERCHANT_FILL.model ? "B to Cモデル" : "B to Bモデル");
   cy.contains(DATA_MERCHANT_FILL.industry);
